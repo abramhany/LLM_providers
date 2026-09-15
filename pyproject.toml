@@ -7,7 +7,9 @@ authors = [
     { name = "abram", email = "abramhany9@gmail.com" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "openai>=3.13.0",
+]
 
 [project.scripts]
 llm-providers = "llm_providers:main"
