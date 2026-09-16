@@ -1,13 +1,20 @@
 from .base import LLMbase
 from config.config import Config
-from openai import OpenAI
+from openai import (OpenAI,APIConnectionError,APITimeoutError,AuthenticationError,RateLimitError,BadRequestError)
 from schema.chat import Chat
-from exceptions.exceptions import (InvalidRequestError,ProviderError)
-from enums.llmerror import LLMError
+from exceptions.exceptions import (InvalidRequest_Error,Provider_Error,Authentication_Error,Connection_Error,RateLimit_Error,BadRequest_Error)
+from enums.llm_error import LLMError
+
+
+
 class Openai_gateway(LLMbase):
 
     def __init__(self,config:Config) -> None:
-        self.client = OpenAI(api_key=config.groq_api_key,base_url=config.base_url,timeout=config.timeout)
+        
+        self.client = OpenAI(api_key=config.groq_api_key,
+                             base_url=config.base_url,
+                             timeout=config.timeout)
+        
         self.model = config.model_name
         
 
@@ -28,12 +35,26 @@ class Openai_gateway(LLMbase):
 
         if chat_input.top_k is not None :
 
-            raise InvalidRequestError(LLMError.UNSUPPORTED_PARAMETER)
-        
-        response = self.client.chat.completions.create(**param)
+            raise InvalidRequest_Error(LLMError.UNSUPPORTED_PARAMETER)
+        try:
 
-        if response.choices[0].message.content is None :
+            response = self.client.chat.completions.create(**param)
+            content = response.choices[0].message.content
 
-            raise ProviderError(LLMError.EMPTY_RESPONSE)
+            if content is None :
+
+                raise Provider_Error(LLMError.EMPTY_RESPONSE)
+
+            return content
         
-        return response.choices[0].message.content
+        except (APIConnectionError,APITimeoutError) as e:
+            raise Connection_Error(LLMError.CONNECTION_ERROR) from e
+        except AuthenticationError as e :
+            raise Authentication_Error(LLMError.AUTENTICATION_ERROR) from e
+        except RateLimitError as e:
+            raise RateLimit_Error(LLMError.RATE_LIMIT_EXCEEDED) from e
+        except BadRequestError as e :
+            raise BadRequest_Error(LLMError.RATE_LIMIT_EXCEEDED) from e
+        
+        
+
