@@ -2,8 +2,8 @@ from .base import LLMbase
 from config.config import Config
 from openai import OpenAI
 from schema.chat import Chat
-
-
+from exceptions.exceptions import (InvalidRequestError,ProviderError)
+from enums.llmerror import LLMError
 class Openai_gateway(LLMbase):
 
     def __init__(self,config:Config) -> None:
@@ -15,16 +15,25 @@ class Openai_gateway(LLMbase):
     def chat(self,chat_input:Chat)->(str|None):
 
         param = {
+
             'model': self.model,
             'messages':[{'role':message.role.value,'content':message.content} for message in chat_input.messages],
             'temperature': chat_input.temperature,
             "max_tokens": chat_input.max_new_tokens,
         }
-        if chat_input.top_p is not None :
-            param['top_p'] = chat_input.top_p
-        if chat_input.top_k is not None :
-            param['top_k'] = chat_input.top_k
 
+        if chat_input.top_p is not None :
+
+            param['top_p'] = chat_input.top_p
+
+        if chat_input.top_k is not None :
+
+            raise InvalidRequestError(LLMError.UNSUPPORTED_PARAMETER)
+        
         response = self.client.chat.completions.create(**param)
 
+        if response.choices[0].message.content is None :
+
+            raise ProviderError(LLMError.EMPTY_RESPONSE)
+        
         return response.choices[0].message.content
