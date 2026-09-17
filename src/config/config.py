@@ -9,8 +9,7 @@ class Config(BaseSettings):
     timeout : float = Field(ge=0,validation_alias="TIME_OUT")
     max_attempts : int = Field(ge=1,validation_alias='MAX_ATTEMPTS')
     base_delay : int = Field(ge=1,validation_alias='BASE_DELAY')
-    sleep : int = Field(ge=1,validation_alias="SLEEP")
-    random_unifrom : int = Field(ge=0,validation_alias="RANDOM_UNIFROM")
+
     
     model_config = SettingsConfigDict(env_file='.env',env_file_encoding="utf-8",
         extra="ignore",protected_namespaces=())

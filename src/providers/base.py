@@ -4,10 +4,10 @@ from schema.chat import Chat
 class LLMbase(ABC):
 
     @abstractmethod
-    def __init__(self,Config:Config) -> None:
+    def __init__(self,*,Config:Config) -> None:
         super().__init__()
    
     @abstractmethod
-    def chat(self,chat_input:Chat)->(str|None):
+    def chat(self,*,chat_input:Chat)->(str|None):
         """Text Generation for valid requests"""
         pass

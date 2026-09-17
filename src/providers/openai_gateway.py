@@ -19,7 +19,7 @@ class Openai_gateway(LLMbase):
         
 
 
-    def chat(self,chat_input:Chat)->(str|None):
+    def chat(self,*,chat_input:Chat)->(str|None):
 
         param = {
 
