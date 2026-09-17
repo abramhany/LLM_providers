@@ -32,24 +32,35 @@ class Openai_gateway(LLMbase):
         }
         if chat_input.text_format is not None :
         
-            param['text_format'] = chat_input.top_p
+            param['text_format'] = chat_input.text_format
 
         if chat_input.top_p is not None :
 
             param['top_p'] = chat_input.top_p
 
         if chat_input.top_k is not None :
-
             raise InvalidRequest_Error(LLMError.UNSUPPORTED_PARAMETER)
+        
         try:
+            if chat_input.text_format is  None :
+    
+                response = self.client.chat.completions.create(**param)
+                content = response.choices[0].message.content
 
-            response = self.client.chat.completions.create(**param)
-            content = response.choices[0].message.content
+                if content is None :
+
+                    raise Provider_Error(LLMError.EMPTY_RESPONSE)
+
+                return content
+
+            param['input'] = param.pop('messages')
+            param.pop('max_tokens')
+            response = self.client.responses.parse(**param)
+            content = response.output_parsed
 
             if content is None :
-
                 raise Provider_Error(LLMError.EMPTY_RESPONSE)
-
+            
             return content
         
         except (APIConnectionError,APITimeoutError) as e:
