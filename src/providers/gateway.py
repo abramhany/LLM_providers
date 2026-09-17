@@ -1,7 +1,9 @@
 from config.config import Config
 import random
+
+from schema.ticket import Ticket
 from .base import LLMbase
-from exceptions.exceptions import Connection_Error,RateLimit_Error  , Provider_Error , Authentication_Error
+from exceptions.exceptions import Connection_Error,RateLimit_Error  , Provider_Error , Authentication_Error , LLMErrorException
 from schema.chat import Chat
 from enums.llm_error import LLMError
 import time
@@ -31,7 +33,13 @@ class Gateway(LLMbase):
                    raise 
                celling = self.base_delay * (2**(attempts-1))
                delay = self.random_unform(0,celling)
-               logging
+               logging.info('time of delay is delay=%s',delay)
                self.sleep(delay)
+            except LLMErrorException as e:
+                logging.error(e)
+                raise e
+
+    def sturctured_ouput(self, *, ticket: Ticket,chat_input:Chat):
+        pass
                
              

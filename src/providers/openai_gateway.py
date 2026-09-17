@@ -1,3 +1,5 @@
+from schema.ticket import Ticket
+
 from .base import LLMbase
 from config.config import Config
 from openai import (OpenAI,APIConnectionError,APITimeoutError,AuthenticationError,RateLimitError,BadRequestError)
@@ -55,6 +57,8 @@ class Openai_gateway(LLMbase):
             raise RateLimit_Error(LLMError.RATE_LIMIT_EXCEEDED) from e
         except BadRequestError as e :
             raise BadRequest_Error(LLMError.RATE_LIMIT_EXCEEDED) from e
-        
+
+    def sturctured_ouput(self, *, ticket: Ticket,chat_input:Chat):
+        pass
         
 
