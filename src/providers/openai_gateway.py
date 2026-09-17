@@ -21,7 +21,7 @@ class Openai_gateway(LLMbase):
         
 
 
-    def chat(self,*,chat_input:Chat)->(str|None):
+    def generation(self,*,chat_input:Chat)->(str|None):
 
         param = {
 
@@ -30,6 +30,9 @@ class Openai_gateway(LLMbase):
             'temperature': chat_input.temperature,
             "max_tokens": chat_input.max_new_tokens,
         }
+        if chat_input.text_format is not None :
+        
+            param['text_format'] = chat_input.top_p
 
         if chat_input.top_p is not None :
 
@@ -58,7 +61,5 @@ class Openai_gateway(LLMbase):
         except BadRequestError as e :
             raise BadRequest_Error(LLMError.RATE_LIMIT_EXCEEDED) from e
 
-    def sturctured_ouput(self, *, ticket: Ticket,chat_input:Chat):
-        pass
-        
+
 

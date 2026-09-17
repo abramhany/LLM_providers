@@ -23,10 +23,10 @@ class Gateway(LLMbase):
         self.random_unform = random.uniform
 
 
-    def chat(self,*,chat_input:Chat):
+    def generation(self,*,chat_input:Chat):
         for attempts in range(1,self.max_attempts+1):
             try:
-                return self.llm_provider.chat(chat_input=chat_input)
+                return self.llm_provider.generation(chat_input=chat_input)
             except(Connection_Error,RateLimit_Error,Provider_Error,Authentication_Error) as e:
                if attempts == self.max_attempts:
                    logging.error("llm_retry_exhausted attempts=%s", attempts)
@@ -39,7 +39,4 @@ class Gateway(LLMbase):
                 logging.error(e)
                 raise e
 
-    def sturctured_ouput(self, *, ticket: Ticket,chat_input:Chat):
-        pass
-               
              

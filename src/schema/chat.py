@@ -1,7 +1,7 @@
 from pydantic import BaseModel , Field  , model_validator
 
 from enums.roles import Role
-
+from .ticket import Ticket
 
 
 class Message(BaseModel):
@@ -21,4 +21,4 @@ class Chat(BaseModel):
 
     max_new_tokens: int = Field(default=100,ge=1)
 
-    
+    text_format : Ticket | None = None
