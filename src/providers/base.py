@@ -1,7 +1,7 @@
 from abc import ABC ,abstractmethod
 from config.config import Config
 from schema import Chat , Ticket
-
+from pydantic import BaseModel
 
 class LLMbase(ABC):
 
@@ -14,4 +14,6 @@ class LLMbase(ABC):
         """Text Generation for valid requests"""
         pass
 
-    
+    def structured_generation(self,*,chat_input:Chat)->(BaseModel | None):
+        """Structured text Generation for valid requests"""
+        pass

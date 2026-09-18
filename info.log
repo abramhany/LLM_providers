@@ -1,0 +1,38 @@
+16:19:51 [DEBUG] (root): debug
+16:19:51 [INFO] (providers.gateway): attempting to send request to the llm
+16:19:52 [DEBUG] (openai._base_client): Building HTTP request: method=POST retries_taken=0
+16:19:52 [DEBUG] (openai._base_client): Sending HTTP Request: POST
+16:19:52 [DEBUG] (httpcore2.connection): connect_tcp.started host='api.groq.com' port=443 local_address=None timeout=1.0 socket_options=None
+16:19:52 [DEBUG] (httpcore2.connection): connect_tcp.complete return_value=<httpcore2._backends.sync.SyncStream object at 0x0000022D73EBDFD0>
+16:19:52 [DEBUG] (httpcore2.connection): start_tls.started ssl_context=<truststore._api.SSLContext object at 0x0000022D6F4A82D0> server_hostname='api.groq.com' timeout=1.0
+16:19:52 [DEBUG] (httpcore2.connection): start_tls.complete return_value=<httpcore2._backends.sync.SyncStream object at 0x0000022D73BE3390>
+16:19:52 [DEBUG] (httpcore2.http11): send_request_headers.started request=<Request [b'POST']>
+16:19:52 [DEBUG] (httpcore2.http11): send_request_headers.complete
+16:19:52 [DEBUG] (httpcore2.http11): send_request_body.started request=<Request [b'POST']>
+16:19:52 [DEBUG] (httpcore2.http11): send_request_body.complete
+16:19:52 [DEBUG] (httpcore2.http11): receive_response_headers.started request=<Request [b'POST']>
+16:19:53 [DEBUG] (httpcore2.http11): receive_response_headers.failed exception=ReadTimeout(TimeoutError('The read operation timed out'))
+16:19:53 [DEBUG] (httpcore2.http11): response_closed.started
+16:19:53 [DEBUG] (httpcore2.http11): response_closed.complete
+16:19:53 [DEBUG] (openai._base_client): Encountered a timeout exception: ReadTimeout
+16:19:53 [DEBUG] (openai._base_client): 2 retries left
+16:19:53 [INFO] (openai._base_client): Retrying request in 0.450575 seconds
+16:19:53 [DEBUG] (openai._base_client): Building HTTP request: method=POST retries_taken=1
+16:19:53 [DEBUG] (openai._base_client): Sending HTTP Request: POST
+16:19:53 [DEBUG] (httpcore2.connection): connect_tcp.started host='api.groq.com' port=443 local_address=None timeout=1.0 socket_options=None
+16:19:53 [DEBUG] (httpcore2.connection): connect_tcp.complete return_value=<httpcore2._backends.sync.SyncStream object at 0x0000022D73BE3ED0>
+16:19:53 [DEBUG] (httpcore2.connection): start_tls.started ssl_context=<truststore._api.SSLContext object at 0x0000022D6F4A82D0> server_hostname='api.groq.com' timeout=1.0
+16:19:53 [DEBUG] (httpcore2.connection): start_tls.complete return_value=<httpcore2._backends.sync.SyncStream object at 0x0000022D73E69F30>
+16:19:53 [DEBUG] (httpcore2.http11): send_request_headers.started request=<Request [b'POST']>
+16:19:53 [DEBUG] (httpcore2.http11): send_request_headers.complete
+16:19:53 [DEBUG] (httpcore2.http11): send_request_body.started request=<Request [b'POST']>
+16:19:53 [DEBUG] (httpcore2.http11): send_request_body.complete
+16:19:53 [DEBUG] (httpcore2.http11): receive_response_headers.started request=<Request [b'POST']>
+16:19:54 [DEBUG] (httpcore2.http11): receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Fri, 18 Sep 2026 13:19:54 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'private, max-age=0, no-store, no-cache, must-revalidate'), (b'Server', b'cloudflare'), (b'vary', b'Origin'), (b'x-groq-region', b'dls'), (b'x-ratelimit-limit-requests', b'1000'), (b'x-ratelimit-limit-tokens', b'8000'), (b'x-ratelimit-remaining-requests', b'997'), (b'x-ratelimit-remaining-tokens', b'5792'), (b'x-ratelimit-reset-requests', b'4m19.2s'), (b'x-ratelimit-reset-tokens', b'16.56s'), (b'x-request-id', b'req_01m2tarv6bev0rr2x628t7j8zg'), (b'via', b'1.1 google'), (b'alt-svc', b'h3=":443"; ma=86400'), (b'cf-cache-status', b'DYNAMIC'), (b'set-cookie', b'__cf_bm=wpKA2GKql2CrZj6WRC4p1FfKw6O34yFqASeOeHiWkL8-1789737593.971575-1.0.1.1-_k7zewkl0LGinqA6oko2FDsOYzal5Umfzk5EDbh3WXyKMPlDAA2nKhhTktrjOBz.3TJH6nXUpmUjL9mEcbY4o_aQ07TtvpFcLXAkqAWFkQoj5b2bxueoH1GhEBfz5cjG; HttpOnly; SameSite=None; Secure; Path=/; Domain=groq.com; Expires=Fri, 18 Sep 2026 13:49:54 GMT'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a3d0a51a48f5169b-MRS')])
+16:19:54 [INFO] (httpx2): HTTP Request: POST https://api.groq.com/openai/v1/responses "HTTP/1.1 200 OK"
+16:19:54 [DEBUG] (httpcore2.http11): receive_response_body.started request=<Request [b'POST']>
+16:19:54 [DEBUG] (httpcore2.http11): receive_response_body.complete
+16:19:54 [DEBUG] (httpcore2.http11): response_closed.started
+16:19:54 [DEBUG] (httpcore2.http11): response_closed.complete
+16:19:54 [DEBUG] (openai._base_client): HTTP Response: POST 200
+16:19:54 [DEBUG] (openai._base_client): request_id: req_01m2tarv6bev0rr2x628t7j8zg

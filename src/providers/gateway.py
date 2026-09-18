@@ -9,8 +9,8 @@ from enums.llm_error import LLMError
 import time
 import logging
 
-logging.basicConfig(level=logging.INFO, filename='info.log',filemode='w', format="%(asctime)s - %(message)s")
-
+logging.basicConfig(level=logging.DEBUG, filename='info.log',filemode='w', format="%(asctime)s [%(levelname)s] (%(name)s): %(message)s",datefmt="%H:%M:%S",)
+logger = logging.getLogger(__name__)
 logging.debug('debug')
 
 class Gateway(LLMbase):
@@ -26,11 +26,12 @@ class Gateway(LLMbase):
     def generation(self,*,chat_input:Chat):
         for attempts in range(1,self.max_attempts+1):
             try:
+                logger.info("attempting to send request to the llm")
                 return self.llm_provider.generation(chat_input=chat_input)
             except(Connection_Error,RateLimit_Error,Provider_Error,Authentication_Error) as e:
                if attempts == self.max_attempts:
-                   logging.error("llm_retry_exhausted attempts=%s", attempts)
-                   raise 
+                   logging.info("llm_retry_exhausted attempts=%s", attempts)
+                   raise
                celling = self.base_delay * (2**(attempts-1))
                delay = self.random_unform(0,celling)
                logging.info('time of delay is delay=%s',delay)
@@ -38,5 +39,22 @@ class Gateway(LLMbase):
             except LLMErrorException as e:
                 logging.error(e)
                 raise e
-
-             
+            
+    def structured_generation(self,*,chat_input:Chat):
+            for attempts in range(1,self.max_attempts+1):
+                try:
+                    logger.info("attempting to send request to the llm")
+                    return self.llm_provider.structured_generation(chat_input=chat_input)
+                except(Connection_Error,RateLimit_Error,Provider_Error,Authentication_Error) as e:
+                   if attempts == self.max_attempts:
+                       logging.info("llm_retry_exhausted attempts=%s", attempts)
+                       raise
+                   celling = self.base_delay * (2**(attempts-1))
+                   delay = self.random_unform(0,celling)
+                   logging.info('time of delay is delay=%s',delay)
+                   self.sleep(delay)
+                except LLMErrorException as e:
+                    logging.error(e)
+                    raise e
+    
+        
